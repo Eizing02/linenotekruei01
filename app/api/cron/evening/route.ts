@@ -1,3 +1,5 @@
+
+
 // app/api/cron/evening/route.ts
 // Scheduled: 17:30 Thai time (10:30 UTC) – "เตรียมพรุ่งนี้"
 // Vercel Cron: "30 10 * * *"
