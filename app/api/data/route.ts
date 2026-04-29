@@ -9,7 +9,7 @@ import type { Row, SavePayload } from '@/types';
 // ─── Helper: convert DB rows to 2D array ─────────────────────
 function scheduleToGrid(rows: Record<string, string>[]): Row[] {
   if (!rows.length) return [];
-  const sorted = [...rows].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+  const sorted = [...rows].sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
   return sorted.map(r => [r.col0, r.col1, r.col2, r.col3, r.col4, r.col5, r.col6, r.col7, r.col8, r.col9, r.col10]);
 }
 
