@@ -54,9 +54,8 @@ export async function POST(req: NextRequest) {
 
 // ── Fetch all data from Supabase ─────────────────────────────
 async function fetchAllData(): Promise<AppData> {
-  const base = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000';
+  const base = process.env.NEXT_PUBLIC_APP_URL
+    || 'https://linenotekruei01.vercel.app';
 
   const res = await fetch(`${base}/api/data`, { cache: 'no-store' });
   if (!res.ok) throw new Error('Failed to fetch data');
