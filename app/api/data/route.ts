@@ -7,15 +7,15 @@ import { getAdminClient } from '@/lib/supabase';
 import type { Row, SavePayload } from '@/types';
 
 // ─── Helper: convert DB rows to 2D array ─────────────────────
-function scheduleToGrid(rows: Record<string, string>[]): Row[] {
+function scheduleToGrid(rows: any[]): Row[] {
   if (!rows.length) return [];
   const sorted = [...rows].sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
-  return sorted.map(r => [r.col0, r.col1, r.col2, r.col3, r.col4, r.col5, r.col6, r.col7, r.col8, r.col9, r.col10]);
+  return sorted.map((r: any) => [r.col0, r.col1, r.col2, r.col3, r.col4, r.col5, r.col6, r.col7, r.col8, r.col9, r.col10]);
 }
 
-function eventsToGrid(rows: Record<string, unknown>[]): Row[] {
+function eventsToGrid(rows: any[]): Row[] {
   const header: Row = ['วันที่ (ว/ด/ป)', 'หมวดหมู่งาน', 'รายละเอียดกิจกรรม / หน้าที่', 'เวลา', 'ประเภท', 'แจ้งเตือนล่วงหน้า (วัน)', 'สถานะ'];
-  const data: Row[] = rows.map(r => [
+  const data: any[] = rows.map((r: any) => [
     r.event_date ? String(r.event_date) : '',
     String(r.category ?? ''),
     String(r.detail ?? ''),
@@ -29,7 +29,7 @@ function eventsToGrid(rows: Record<string, unknown>[]): Row[] {
 
 function tasksToGrid(rows: Record<string, unknown>[]): Row[] {
   const header: Row = ['ID งาน', 'หมวดหมู่', 'ชื่องาน / โปรเจกต์', 'กำหนดส่ง (Deadline)', 'สถานะ', 'หมายเหตุ', 'จำนวนวันคงเหลือ (Formula)'];
-  const data: Row[] = rows.map(r => [
+  const data: any[] = rows.map((r: any) => [
     String(r.task_id ?? ''),
     String(r.category ?? ''),
     String(r.name ?? ''),
@@ -43,7 +43,7 @@ function tasksToGrid(rows: Record<string, unknown>[]): Row[] {
 
 function settingsToGrid(rows: Record<string, unknown>[]): Row[] {
   const header: Row = ['รายการ', 'ค่าที่กำหนด', 'คำอธิบาย'];
-  const data: Row[] = rows.map(r => [String(r.key ?? ''), String(r.value ?? ''), String(r.description ?? '')]);
+  const data: any[] = rows.map((r: any) => [String(r.key ?? ''), String(r.value ?? ''), String(r.description ?? '')]);
   return [header, ...data];
 }
 
@@ -60,7 +60,7 @@ export async function GET() {
     ]);
 
     return NextResponse.json({
-      schedule: scheduleToGrid((schData ?? []) as Record<string, string>[]),
+      schedule: scheduleToGrid((schData ?? []) as any[]),
       events:   eventsToGrid((evData ?? []) as Record<string, unknown>[]),
       tasks:    tasksToGrid((tkData ?? []) as Record<string, unknown>[]),
       settings: settingsToGrid((stData ?? []) as Record<string, unknown>[]),
